@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32510.428
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml.Integration.Web", "Xml.Integration.Web\Xml.Integration.Web.csproj", "{5726F6D8-687B-4550-91FD-258545127D03}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xml.Integration.Data", "Xml.Integration.Data\Xml.Integration.Data.csproj", "{6FCED7D2-0138-4256-A800-EF2FF6C07E4A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5726F6D8-687B-4550-91FD-258545127D03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5726F6D8-687B-4550-91FD-258545127D03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5726F6D8-687B-4550-91FD-258545127D03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5726F6D8-687B-4550-91FD-258545127D03}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6FCED7D2-0138-4256-A800-EF2FF6C07E4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6FCED7D2-0138-4256-A800-EF2FF6C07E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6FCED7D2-0138-4256-A800-EF2FF6C07E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6FCED7D2-0138-4256-A800-EF2FF6C07E4A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D4AFF16D-AA48-4D0F-90E7-14672FA0C94F}
+	EndGlobalSection
+EndGlobal

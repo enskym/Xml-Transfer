@@ -1,0 +1,247 @@
+﻿
+@using Xml.Integration.Data.Models
+@{
+    ViewBag.Title = "Aktarım Sihirbazı";
+    var list = ViewBag.Model as RootDto;
+    var newlist = new List<SalesInvoiceHeader>();
+    if (list.Root != null)
+    {
+        newlist = list.Root.SalesInvoiceHeader;
+    }
+
+    int count = 0;
+}
+
+<hr />
+<br />
+<br />
+
+<h5>Lütfen xml dosyanızı seçip Oku butona basınız.</h5>
+
+<div class="row">
+    <div class="col-md-12">
+        @using (Html.BeginForm("FileRead", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <table class="table table-bordered">
+                <tbody>
+                    <tr>
+                        <td>
+                            <input type="file" name="file" required />
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-xs btn-primary">Dosya Oku</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        }
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-warning">@ViewBag.Error</div>
+        }
+    </div>
+
+
+    @if (ViewBag.Model != null)
+    {
+
+        <div class="table  table-responsive">
+            <table class="table table-hover table-sm table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>#</th>
+                        <th>SeltoCustomerNo</th>
+                        <th>No</th>
+                        <th>BilltoName</th>
+                        <th>BilltoAdress</th>
+                        <th>BilltoCity</th>
+                        <th>ShiptoName</th>
+
+
+                        <th>OrderDate</th>
+
+                        <th>DueDate</th>
+                        <th>Amount</th>
+                        <th>AmountIncludingVAT</th>
+
+                        <th>BilltoCounty</th>
+                        <th>DocumentDate</th>
+                        <th>ExternalDocumentNo</th>
+                        <th>EMail</th>
+                        <th>MobilePhoneNo</th>
+                        <th>Customer Area</th>
+                        <th>Customer Tax</th>
+
+                    </tr>
+
+
+                </thead>
+
+                <tbody>
+                    @foreach (var item in newlist)
+                    {
+                      
+
+                        var json = Newtonsoft.Json.JsonConvert.SerializeObject(item);
+
+
+                        <tr class="allitemlistlines list_line_@count" data-no="@count">
+                            <td><span class="" id="aktarimsonuc_@count">Beklemede</span></td>
+                            <th>
+                                @(count+1)
+                            </th>
+                            <th>
+
+                                <input hidden id="code_@count" value="@json" />
+
+                                @item.SeltoCustomerNo
+                            </th>
+                            <th>@item.No</th>
+                            <th>@item.BilltoName</th>
+                            <th>@item.BilltoAdress</th>
+                            <th>@item.BilltoCity</th>
+                            <th>@item.ShiptoName</th>
+
+                            <th>@item.OrderDate</th>
+
+                            <th>@item.DueDate</th>
+                            <th>@item.Amount</th>
+                            <th>@item.AmountIncludingVAT</th>
+
+                            <th>@item.BilltoCounty</th>
+                            <th>@item.DocumentDate</th>
+                            <th>@item.ExternalDocumentNo</th>
+                            <th>@item.EMail</th>
+                            <th>@item.MobilePhoneNo</th>
+                            <th>@item.Customer.TaxArea</th>
+                            <th>@item.Customer.TaxID</th>
+
+                        </tr>
+
+                        count++;
+                    }
+
+
+                </tbody>
+
+
+            </table>
+
+
+
+        </div>
+        <div class="row" style="float:right">
+            <div class="col-12">
+                <button onclick="Save('@count')" class="btn btn-success btn-xs">Kaydet</button>
+
+            </div>
+        </div>
+    }
+</div>
+@section scripts{
+    <script>
+
+
+
+        function Save(id) {
+            bootbox.confirm({
+                message: "Kaydetmek istediğinize emin misiniz?",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+
+                    if (result) {
+                        if (id != 0) {
+
+                            var arr = [];
+                            $(".allitemlistlines").each(function () {
+
+                                var no = $(this).attr("data-no");
+
+                                var model = JSON.parse($("#code_" + no).val());
+
+                                if (model.SalesInvoiceLine != null) {
+                                    if (model.SalesInvoiceLine.length > 0) {
+                                        model.SalesInvoiceLineJson = model.SalesInvoiceLine;
+                                    } else {
+                                        model.SalesInvoiceLineJson = [];
+                                        model.SalesInvoiceLineJson.push(model.SalesInvoiceLine);
+                                    }
+                                }
+                                
+
+                                arr.push(model);
+                            });
+
+                            DonguBaslat(arr, 0);
+
+                        } else {
+                            alert("Lütfen XML dosyasını seçiniz.")
+                        }
+
+                    } else {
+
+                    }
+                }
+            });
+        }
+
+        function DonguBaslat(dist, i) {
+
+            if (i < dist.length) {
+                var item = dist[i];
+
+                $("#aktarimsonuc_" + i).text("Aktarılıyor...");
+
+                LoopItem(item,
+                    function (data) {
+
+                        if (data != null) {
+
+                            if (data.Status == true) {
+
+                                $("#aktarimsonuc_" + i).text(data.Message);
+                                $("#aktarimsonuc_" + i).addClass("alert-success")
+
+                            } else {
+
+                                $("#aktarimsonuc_" + i).text(data.Message);
+                                $("#aktarimsonuc_" + i).addClass("alert-danger")
+                            }
+
+                            i = i + 1;
+
+                            DonguBaslat(dist, i);
+                        }
+                    });
+            }
+        }
+
+        function LoopItem(satir, callback) {
+
+            $.ajax({
+                type: "POST",
+                url: "/Home/CreaateInvoice",
+                data: { satir: satir },
+                success: function (data) {
+                    callback(data);
+                }
+            });
+        }
+
+
+    </script>
+
+
+}
+
